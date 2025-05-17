@@ -2,7 +2,7 @@
 -- so these can be global keybindings
 vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
 vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
-vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>') 
+vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
 
 vim.api.nvim_create_autocmd('LspAttach', {
   desc = 'LSP actions',
@@ -31,11 +31,42 @@ require('mason').setup({})
 require('mason-lspconfig').setup({
   ensure_installed = {},
   handlers = {
-    function(server_name)
-      require('lspconfig')[server_name].setup({
-        capabilities = lsp_capabilities,
-      })
+    clangd = function()
+	require('lspconfig').clangd.setup({
+	    capabilities = lsp_capabilities,
+	    settings = {
+		clangd = {
+		    -- enable = false -- I'm trying to change settings of my clangd lsp but can't seem to figure out how
+		}
+	    }
+    })
     end,
+--    function(server_name)
+--      require('lspconfig')[server_name].setup({
+--        capabilities = lsp_capabilities,
+--      })
+--    end,
+
+    lua_ls = function()
+     require('lspconfig').lua_ls.setup({
+  capabilities = lsp_capabilities,
+  settings = {
+    Lua = {
+      runtime = {
+        version = 'LuaJIT'
+      },
+      diagnostics = {
+        globals = {'vim'},
+      },
+      workspace = {
+        library = {
+          vim.env.VIMRUNTIME,
+        }
+      }
+    }
+  }
+})    end,
+
   },
 })
 
@@ -60,36 +91,5 @@ cmp.setup({
 })
 
 -- this was all taken from this page https://lsp-zero.netlify.app/blog/you-might-not-need-lsp-zero.html
-
-require('mason-lspconfig').setup({
-  ensure_installed = {},
-  handlers = {
-    function(server_name)
-      require('lspconfig')[server_name].setup({
-        capabilities = lsp_capabilities,
-      })
-    end,
-    lua_ls = function()
-     require('lspconfig').lua_ls.setup({
-  capabilities = lsp_capabilities,
-  settings = {
-    Lua = {
-      runtime = {
-        version = 'LuaJIT'
-      },
-      diagnostics = {
-        globals = {'vim'},
-      },
-      workspace = {
-        library = {
-          vim.env.VIMRUNTIME,
-        }
-      }
-    }
-  }
-})    end,
-  },
-})
-
 
 

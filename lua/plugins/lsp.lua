@@ -1,17 +1,16 @@
 return {
 
 	{"neovim/nvim-lspconfig",
-	lazy = false
+	lazy = false,
+	priority = 100
 },
 	{
 		"williamboman/mason.nvim",
 		branch = "v1.x",
-		lazy = false
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
 		branch = "v1.x",
-		lazy = false
 	},
 	{
 		"hrsh7th/nvim-cmp" -- this guy makes a lot of plugins. Might want to look at some of the others. he has a wiki for them
