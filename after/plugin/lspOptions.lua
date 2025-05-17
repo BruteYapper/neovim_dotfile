@@ -36,9 +36,9 @@ require('mason-lspconfig').setup({
 	    capabilities = lsp_capabilities,
 	    settings = {
 		clangd = {
-		    -- enable = false -- I'm trying to change settings of my clangd lsp but can't seem to figure out how
-		}
-	    }
+		    arguments = {'--log=verbose', '--pretty', '--background-index', '--clang-tidy', '--header-insertion=Never', '--enable-config'},
+		},
+	    },
     })
     end,
 --    function(server_name)
